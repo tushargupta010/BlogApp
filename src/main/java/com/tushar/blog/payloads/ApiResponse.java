@@ -1,7 +1,5 @@
 package com.tushar.blog.payloads;
 
-import org.springframework.http.HttpStatus;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +13,5 @@ public class ApiResponse {
 
 	private String message;
 	private boolean success;
-	private HttpStatus status;
 	
 }
