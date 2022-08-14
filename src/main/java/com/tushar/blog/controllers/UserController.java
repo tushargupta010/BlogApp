@@ -3,6 +3,8 @@ package com.tushar.blog.controllers;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,14 +30,14 @@ public class UserController {
 	
 	// POST-create user
 	@PostMapping("/")
-	public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
 		UserDto createdUserDto = this.userService.createUser(userDto);
 		return new ResponseEntity<UserDto>(createdUserDto, HttpStatus.CREATED);
 	}
 	
 	// PUT-update user
 	@PutMapping("/{userId}")
-	public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto, @PathVariable("userId") int userId) {
+	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable("userId") int userId) {
 		UserDto updatedUserDto = this.userService.updateUser(userDto, userId);
 		//return new ResponseEntity<UserDto>(updatedUserDto, HttpStatus.OK);
 		return ResponseEntity.ok(updatedUserDto);
