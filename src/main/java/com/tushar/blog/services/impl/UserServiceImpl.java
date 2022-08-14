@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.tushar.blog.entities.User;
 import com.tushar.blog.payloads.UserDto;
@@ -11,6 +12,7 @@ import com.tushar.blog.repository.UserRepo;
 import com.tushar.blog.services.UserService;
 import com.tushar.blog.exceptions.ResourceNotFoundException;
 
+@Service
 public class UserServiceImpl implements UserService {
 	
 	@Autowired
