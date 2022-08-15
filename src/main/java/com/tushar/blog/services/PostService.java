@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.tushar.blog.entities.Post;
 import com.tushar.blog.payloads.PostDto;
+import com.tushar.blog.payloads.PostResponse;
 
 public interface PostService {
 	
@@ -17,7 +18,7 @@ public interface PostService {
 	void deletePost(Integer postId);
 	
 	// get All posts
-	List<PostDto> getAllPost();
+	PostResponse getAllPost(Integer pageNumber, Integer pageSize);
 	
 	// get Single post
 	PostDto getPostById(Integer postId);

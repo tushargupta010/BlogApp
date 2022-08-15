@@ -7,6 +7,9 @@ import java.util.stream.Stream;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.tushar.blog.entities.Category;
@@ -14,6 +17,7 @@ import com.tushar.blog.entities.Post;
 import com.tushar.blog.entities.User;
 import com.tushar.blog.exceptions.ResourceNotFoundException;
 import com.tushar.blog.payloads.PostDto;
+import com.tushar.blog.payloads.PostResponse;
 import com.tushar.blog.repository.CategoryRepo;
 import com.tushar.blog.repository.PostRepo;
 import com.tushar.blog.repository.UserRepo;
@@ -72,13 +76,28 @@ public class PostServiceImpl implements PostService {
 				.orElseThrow(() -> new ResourceNotFoundException("Post", "Id", postId));
 		this.postRepo.delete(post);
 	}
-
+	
 	@Override
-	public List<PostDto> getAllPost() {
-		List<Post> posts = this.postRepo.findAll();
+	public PostResponse getAllPost(Integer pageNumber, Integer pageSize) {
+		
+		Pageable pageable = PageRequest.of(pageNumber, pageSize);
+		
+		Page<Post> pagePosts = this.postRepo.findAll(pageable);
+		
+		List<Post> posts = pagePosts.getContent();
+		
 		List<PostDto> postDtos = posts.stream().map(post -> this.modelMapper.map(post, PostDto.class))
 				.collect(Collectors.toList());
-		return postDtos;
+		
+		PostResponse postResponse = new PostResponse();
+		postResponse.setContent(postDtos);
+		postResponse.setPageNumber(pagePosts.getNumber());
+		postResponse.setPageSize(pagePosts.getSize());
+		postResponse.setTotalElements(pagePosts.getTotalElements());
+		postResponse.setTotalPages(pagePosts.getTotalPages());
+		postResponse.setLastPage(pagePosts.isLast());
+		
+		return postResponse;
 	}
 
 	@Override
